@@ -1,11 +1,11 @@
 import turtle
+import os
 
 print("Welcome to Turtle Draw!")
 print("Enter the .txt filename below")
 FILENAME = input("Filename: ")
 turtledraw = turtle.Turtle()
-screen = turtle.Screen()
-screen.setup(450, 450)
+turtle.Screen().setup(450, 450)
 turtledraw.speed(10)
 turtledraw.penup()
 
@@ -17,6 +17,7 @@ line = textfile.readline()
 drawing_started = False
 
 while line:
+    print(line)
     sections = line.split(' ')
 
     if len(sections) == 3:
@@ -27,7 +28,7 @@ while line:
         if not drawing_started:
             drawing_started = True
         else:
-            # Calculate distance moved (Credit ChatGPT)
+            # Calculate distance moved
             distance_moved = ((turtledraw.xcor() - x)**2 + (turtledraw.ycor() - y)**2)**0.5
             total_distance += distance_moved
 
@@ -37,26 +38,22 @@ while line:
 
     elif len(sections) == 1:
         turtledraw.penup()
-        drawing_started = False  
+        drawing_started = False  # Set drawing_started to False when pen is up
 
     line = textfile.readline()
 
-
+# Function to measure and print total distance
 def measure_distance():
     turtledraw.penup()
-    turtledraw.goto(40, -200)  
+    turtledraw.goto(-200, -200)  # Adjust the coordinates as needed
     turtledraw.pendown()
     turtledraw.color("black")
     turtledraw.write(f"Total Distance: {total_distance:.2f}", font=("Arial", 12, "normal"))
     turtledraw.penup()
+    turtledraw.home()
 
 measure_distance()
 
-# Close the window when the Enter key is pressed
-screen.onkey(turtle.bye, "Return")
-
-screen.listen()
-screen.mainloop()
-
+turtle.done()
 textfile.close()
 print('\nEnd')
